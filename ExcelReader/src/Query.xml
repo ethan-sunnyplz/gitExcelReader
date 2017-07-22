@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<sqlMap namespace="uploader">
+
+	<select id="readIdData" resultClass="java.util.HashMap"
+		parameterClass="java.util.HashMap" remapResults="true">
+		SELECT id, dbid,
+		$cd_name$, $cd_ver$ from
+		$table$
+		WHERE id = #KNF_CODE#
+	</select>
+
+	<select id="readCodeInfo" resultClass="java.util.HashMap"
+		parameterClass="java.util.HashMap">
+		SELECT code_name, drf_no, reg_date, nucleartype
+		FROM code_info
+		WHERE
+		code_name = #CODE_NAME#
+		<isNotEmpty property="DRF_NO">
+			AND drf_no =#DRF_NO#
+		</isNotEmpty>
+	</select>
+
+	<update id="updateInCodeName" parameterClass="java.util.HashMap">
+		UPDATE
+		$table$
+		SET
+		drf_no = #DRF_NO#,
+		reg_date = #REG_DATE#,
+		$cd_ver$ =
+		#VERSION#,
+		$cd_name$ = #CODE_NAME#
+		WHERE id = #KNF_CODE#
+	</update>
+
+	<update id="updateNotInCodeName" parameterClass="java.util.HashMap">
+		UPDATE
+		$table$
+		SET
+		$cd_name$ = #CODE_NAME#,
+		$cd_ver$ = #VERSION#
+		WHERE id = #KNF_CODE#
+	</update>
+
+	<insert id="insertMappingData" parameterClass="java.util.HashMap">
+		INSERT INTO
+		temp_mapping_data(sort, id, updateFlag, mappingFlag, code_info_size,
+		seq)
+		VALUES (#table#,#KNF_CODE#,
+		#UPDATE_FLAG#, #MAPPING_FLAG#, #SIZE#,
+		#SEQ#)
+	</insert>
+
+	<insert id="insertCodeInstall" parameterClass="java.util.HashMap">
+		INSERT INTO
+		code_install_rel(code_install_dbid, seq, drf_no, reg_date, code_name,
+		nucleartype, code_version, hardware, os, uselanguage, path, input_dt,
+		input_user_id)
+		VALUES
+		(#CODE_INSTALL_DBID#,#SEQ#,#DRF_NO#,#REG_DATE#,#CODE_NAME#,#NUCLEARTYPE#,#VERSION#,
+		#HARDWARE#, #OS#, #PL#, #PATH#, sysdate,#INPUT_USER_ID#)
+	</insert>
+
+
+</sqlMap>

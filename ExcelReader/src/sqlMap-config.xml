@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMapConfig PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+
+	<settings cacheModelsEnabled="true" enhancementEnabled="true"
+		lazyLoadingEnabled="true" maxRequests="32" maxSessions="10"
+		maxTransactions="5" useStatementNamespaces="true" />
+
+	<transactionManager type="JDBC">
+		<dataSource type="DBCP">
+			<!-- <property value="oracle.jdbc.driver.OracleDriver" name="JDBC.Driver" 
+				/> -->
+			<property value="core.log.jdbc.driver.OracleDriver" name="JDBC.Driver" />
+			<property name="JDBC.ConnectionURL" value="JDBC.ConnectionURL" />
+			<property name="JDBC.Username" value="JDBC.Username" />
+			<property name="JDBC.Password" value="JDBC.Password" />
+		</dataSource>
+	</transactionManager>
+
+	<sqlMap resource="Query.xml" />
+</sqlMapConfig>
